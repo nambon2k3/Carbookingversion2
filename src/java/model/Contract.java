@@ -13,7 +13,7 @@ import java.util.Date;
 public class Contract {
     
     private int contractID;
-    private int userID;
+    private String username;
     private Date startDateTime;
     private Date endDateTime;
     private double totalCost;
@@ -22,9 +22,9 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract(int contractID, int userID, Date startDateTime, Date endDateTime, double totalCost, String status) {
+    public Contract(int contractID, String username, Date startDateTime, Date endDateTime, double totalCost, String status) {
         this.contractID = contractID;
-        this.userID = userID;
+        this.username = username;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.totalCost = totalCost;
@@ -39,12 +39,12 @@ public class Contract {
         this.contractID = contractID;
     }
 
-    public int getUserID() {
-        return userID;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Date getStartDateTime() {

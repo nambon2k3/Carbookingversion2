@@ -13,10 +13,10 @@ public class ContractDAO extends DBContext {
     }
 
     public void createContract(Contract contract) {
-        String query = "INSERT INTO Contracts (UserID, StartDateTime, EndDateTime, TotalCost, Status) "
+        String query = "INSERT INTO Contracts (username, StartDateTime, EndDateTime, TotalCost, Status) "
                 + "VALUES (?, ?, ?, ?, ?)";
         try ( PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, contract.getUserID());
+            preparedStatement.setString(1, contract.getUsername());
             preparedStatement.setTimestamp(2, new Timestamp(contract.getStartDateTime().getTime()));
             preparedStatement.setTimestamp(3, new Timestamp(contract.getEndDateTime().getTime()));
             preparedStatement.setDouble(4, contract.getTotalCost());
@@ -33,7 +33,7 @@ public class ContractDAO extends DBContext {
         try ( PreparedStatement preparedStatement = connection.prepareStatement(query);  ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 int contractID = resultSet.getInt("ContractID");
-                int userID = resultSet.getInt("UserID");
+                String username = resultSet.getString("username");
                 Timestamp startDateTime = resultSet.getTimestamp("StartDateTime");
                 Timestamp endDateTime = resultSet.getTimestamp("EndDateTime");
                 double totalCost = resultSet.getDouble("TotalCost");
@@ -41,7 +41,7 @@ public class ContractDAO extends DBContext {
 
                 Contract contract = new Contract();
                 contract.setContractID(contractID);
-                contract.setUserID(userID);
+                contract.setUsername(username);
                 contract.setStartDateTime(new java.util.Date(startDateTime.getTime()));
                 contract.setEndDateTime(new java.util.Date(endDateTime.getTime()));
                 contract.setTotalCost(totalCost);
@@ -62,7 +62,7 @@ public class ContractDAO extends DBContext {
             preparedStatement.setInt(1, contractID);
             try ( ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    int userID = resultSet.getInt("UserID");
+                    String username = resultSet.getString("username");
                     Timestamp startDateTime = resultSet.getTimestamp("StartDateTime");
                     Timestamp endDateTime = resultSet.getTimestamp("EndDateTime");
                     double totalCost = resultSet.getDouble("TotalCost");
@@ -70,7 +70,7 @@ public class ContractDAO extends DBContext {
 
                     contract = new Contract();
                     contract.setContractID(contractID);
-                    contract.setUserID(userID);
+                    contract.setUsername(username);
                     contract.setStartDateTime(new java.util.Date(startDateTime.getTime()));
                     contract.setEndDateTime(new java.util.Date(endDateTime.getTime()));
                     contract.setTotalCost(totalCost);
@@ -84,9 +84,9 @@ public class ContractDAO extends DBContext {
     }
 
     public boolean updateContract(Contract contract) {
-        String query = "UPDATE Contracts SET UserID = ?, StartDateTime = ?, EndDateTime = ?, TotalCost = ?, Status = ? WHERE ContractID = ?";
+        String query = "UPDATE Contracts SET username = ?, StartDateTime = ?, EndDateTime = ?, TotalCost = ?, Status = ? WHERE ContractID = ?";
         try ( PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, contract.getUserID());
+            preparedStatement.setString(1, contract.getUsername());
             preparedStatement.setTimestamp(2, new Timestamp(contract.getStartDateTime().getTime()));
             preparedStatement.setTimestamp(3, new Timestamp(contract.getEndDateTime().getTime()));
             preparedStatement.setDouble(4, contract.getTotalCost());

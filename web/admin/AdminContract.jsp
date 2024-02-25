@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,24 +40,27 @@
                         <tr>
                             <th>ID</th>
                             <th>Username</th>
-                            <th>Bus ID</th>
-                            <th>Seat Number</th>
-                            <th>Booked date</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Total cost</th>
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <c:forEach items="${ticketList}" var="ticket">
+                        <c:forEach items="${contractList}" var="contract">
                             <tr>
-                                <td>${ticket.id}</td>
-                                <td>${ticket.username}</td>
-                                <td>${ticket.busId}</td>
-                                <td>${ticket.seatNumber}</td>
-                                <td>${ticket.bookedDate}</td>
-                                <th><a href="./AdminTicket?action=update&id=${ticket.id}">Edit</a></th>
-                                <th><a href="./AdminTicket?action=delete&id=${ticket.id}">Delete</a></th>
+                                <td>${contract.contractID}</td>
+                                <td>${contract.username}</td>
+                                <td>${contract.totalCost}</td>
+                                <td><fmt:formatDate value="${contract.startDateTime}" pattern="dd-MM-yyyy" /></td>
+                                <td><fmt:formatDate value="${contract.endDateTime}" pattern="dd-MM-yyyy" /></td>
+                                <td>${contract.status}</td>
+                                <td>
+                                    <button class="btn btn-secondary">Details</button>
+                                    <a class="btn btn-success" href="">Accept</a>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>

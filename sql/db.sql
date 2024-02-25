@@ -114,8 +114,8 @@ GO
 CREATE TABLE [dbo].[Contracts](
 	[ContractID] [int] IDENTITY(1,1) NOT NULL,
 	[username] [text] NULL,
-	[StartDateTime] [datetime] NULL,
-	[EndDateTime] [datetime] NULL,
+	[StartDateTime] [date] NULL,
+	[EndDateTime] [date] NULL,
 	[TotalCost] [decimal](10, 2) NULL,
 	[Status] [nvarchar](50) NULL,
 PRIMARY KEY CLUSTERED 
@@ -179,11 +179,11 @@ SET IDENTITY_INSERT [dbo].[ContractDetails] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Contracts] ON 
 GO
-INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (1, 'Aline', CAST(N'2024-02-20T08:00:00.000' AS DateTime), CAST(N'2024-02-25T08:00:00.000' AS DateTime), CAST(260.00 AS Decimal(10, 2)), N'Active')
+INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (1, 'Aline', CAST(N'2024-02-20' AS Date), CAST(N'2024-02-25' AS Date), CAST(260.00 AS Decimal(10, 2)), N'Active')
 GO
-INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (2, 'Aline', CAST(N'2024-03-10T10:00:00.000' AS DateTime), CAST(N'2024-03-15T10:00:00.000' AS DateTime), CAST(400.00 AS Decimal(10, 2)), N'Active')
+INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (2, 'Aline', CAST(N'2024-03-10' AS Date), CAST(N'2024-03-15' AS Date), CAST(400.00 AS Decimal(10, 2)), N'Active')
 GO
-INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (3, 'Aline', CAST(N'2024-04-05T09:00:00.000' AS DateTime), CAST(N'2024-04-10T09:00:00.000' AS DateTime), CAST(300.00 AS Decimal(10, 2)), N'Active')
+INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (3, 'Aline', CAST(N'2024-04-05' AS Date), CAST(N'2024-04-10' AS Date), CAST(300.00 AS Decimal(10, 2)), N'Active')
 GO
 SET IDENTITY_INSERT [dbo].[Contracts] OFF
 GO
