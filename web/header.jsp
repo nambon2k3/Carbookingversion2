@@ -16,10 +16,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="home">Home</a></li>
-                <c:if test="${not empty sessionScope.user && sessionScope.user.role==0}">
+                <c:if test="${sessionScope.user.role eq 0}">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="AdminUser">User</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="AdminBus">Bus</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="AdminTicket">Ticket</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="AdminCar">Car</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="AdminContract">Contract</a></li>
                 </c:if>
             </ul>
             <div class="d-flex">

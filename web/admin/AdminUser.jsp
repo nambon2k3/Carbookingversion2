@@ -33,6 +33,16 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
 
+                <c:if test="${param.success ne null}">
+                    <div class="alert alert-success" role="alert">
+                        Update success!
+                    </div>
+                </c:if>
+                <c:if test="${param.fail ne null}">
+                    <div class="alert alert-danger" role="alert">
+                        Update fail!
+                    </div>
+                </c:if>
 
                 <table id="datatable">
                     <thead>

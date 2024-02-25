@@ -121,7 +121,7 @@ public class LogController extends HttpServlet {
 
                     //direct role admin
                     if (user.getRole() == 0) {
-                        response.sendRedirect("AdminBus");
+                        response.sendRedirect("AdminCar");
                         return;
                     }
                     

@@ -92,7 +92,7 @@ public class UserController extends HttpServlet {
         int status = Integer.parseInt(request.getParameter("status"));
         
         new UserDAO().updateUserStatus(username, status);
-        response.sendRedirect("AdminUser");
+        response.sendRedirect("AdminUser?success");
     }
 
     // Show update user form (Empty method, provide the actual code here)
@@ -124,6 +124,6 @@ public class UserController extends HttpServlet {
         
         new UserDAO().updateUser(user);
         
-        response.sendRedirect("AdminUser");
+        response.sendRedirect("AdminUser?success");
     }
 }
