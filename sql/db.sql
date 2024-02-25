@@ -113,7 +113,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Contracts](
 	[ContractID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [int] NULL,
+	[username] [text] NULL,
 	[StartDateTime] [datetime] NULL,
 	[EndDateTime] [datetime] NULL,
 	[TotalCost] [decimal](10, 2) NULL,
@@ -130,14 +130,18 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Users](
-	[UserID] [int] IDENTITY(1,1) NOT NULL,
-	[Username] [nvarchar](50) NULL,
-	[Password] [nvarchar](max) NULL,
-	[Email] [nvarchar](100) NULL,
-	[UserType] [nvarchar](50) NULL,
+	[username] [varchar](100) NOT NULL,
+	[dob] [date] NULL,
+	[email] [varchar](320) NULL,
+	[full_name] [varchar](100) NULL,
+	[gender] [int] NULL,
+	[password] [varchar](100) NULL,
+	[role] [int] NULL,
+	[img] [nvarchar](max) NULL,
+	[status] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
-	[UserID] ASC
+	[username] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
@@ -175,29 +179,20 @@ SET IDENTITY_INSERT [dbo].[ContractDetails] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Contracts] ON 
 GO
-INSERT [dbo].[Contracts] ([ContractID], [UserID], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (1, 1, CAST(N'2024-02-20T08:00:00.000' AS DateTime), CAST(N'2024-02-25T08:00:00.000' AS DateTime), CAST(260.00 AS Decimal(10, 2)), N'Active')
+INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (1, 'Aline', CAST(N'2024-02-20T08:00:00.000' AS DateTime), CAST(N'2024-02-25T08:00:00.000' AS DateTime), CAST(260.00 AS Decimal(10, 2)), N'Active')
 GO
-INSERT [dbo].[Contracts] ([ContractID], [UserID], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (2, 2, CAST(N'2024-03-10T10:00:00.000' AS DateTime), CAST(N'2024-03-15T10:00:00.000' AS DateTime), CAST(400.00 AS Decimal(10, 2)), N'Active')
+INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (2, 'Aline', CAST(N'2024-03-10T10:00:00.000' AS DateTime), CAST(N'2024-03-15T10:00:00.000' AS DateTime), CAST(400.00 AS Decimal(10, 2)), N'Active')
 GO
-INSERT [dbo].[Contracts] ([ContractID], [UserID], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (3, 3, CAST(N'2024-04-05T09:00:00.000' AS DateTime), CAST(N'2024-04-10T09:00:00.000' AS DateTime), CAST(300.00 AS Decimal(10, 2)), N'Active')
+INSERT [dbo].[Contracts] ([ContractID], [username], [StartDateTime], [EndDateTime], [TotalCost], [Status]) VALUES (3, 'Aline', CAST(N'2024-04-05T09:00:00.000' AS DateTime), CAST(N'2024-04-10T09:00:00.000' AS DateTime), CAST(300.00 AS Decimal(10, 2)), N'Active')
 GO
 SET IDENTITY_INSERT [dbo].[Contracts] OFF
 GO
-SET IDENTITY_INSERT [dbo].[Users] ON 
-GO
-INSERT [dbo].[Users] ([UserID], [Username], [Password], [Email], [UserType]) VALUES (1, N'customer1', N'hashed_password1', N'customer1@example.com', N'Customer')
-GO
-INSERT [dbo].[Users] ([UserID], [Username], [Password], [Email], [UserType]) VALUES (2, N'customer2', N'hashed_password2', N'customer2@example.com', N'Customer')
-GO
-INSERT [dbo].[Users] ([UserID], [Username], [Password], [Email], [UserType]) VALUES (3, N'customer3', N'hashed_password3', N'customer3@example.com', N'Customer')
-GO
-INSERT [dbo].[Users] ([UserID], [Username], [Password], [Email], [UserType]) VALUES (4, N'employee1', N'hashed_password4', N'employee1@example.com', N'Employee')
-GO
-INSERT [dbo].[Users] ([UserID], [Username], [Password], [Email], [UserType]) VALUES (5, N'employee2', N'hashed_password5', N'employee2@example.com', N'Employee')
-GO
-INSERT [dbo].[Users] ([UserID], [Username], [Password], [Email], [UserType]) VALUES (6, N'admin', N'hashed_password6', N'admin@example.com', N'Admin')
-GO
-SET IDENTITY_INSERT [dbo].[Users] OFF
+INSERT [dbo].[Users] ([username], [dob], [email], [full_name], [gender], [password], [role], [img], [status]) VALUES (N'admin', CAST(N'2023-05-26' AS Date), N'malesuada@hotmail.net', N'Castor', 0, N'21232f297a57a5a743894a0e4a801fc3', 0, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU', 1)
+INSERT [dbo].[Users] ([username], [dob], [email], [full_name], [gender], [password], [role], [img], [status]) VALUES (N'Aline', CAST(N'2023-07-19' AS Date), N'phasellus.dolor@yahoo.org', N'Kadeem', 0, N'202cb962ac59075b964b07152d234b70', 0, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU', 1)
+INSERT [dbo].[Users] ([username], [dob], [email], [full_name], [gender], [password], [role], [img], [status]) VALUES (N'Branden', CAST(N'2023-08-15' AS Date), N'consequat.purus@google.com', N'Yuli', 0, N'202cb962ac59075b964b07152d234b70', 0, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU', 1)
+INSERT [dbo].[Users] ([username], [dob], [email], [full_name], [gender], [password], [role], [img], [status]) VALUES (N'Chiquita', CAST(N'2023-04-29' AS Date), N'tellus.justo.sit@google.com', N'Ulysses', 1, N'202cb962ac59075b964b07152d234b70', 0, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU', 1)
+INSERT [dbo].[Users] ([username], [dob], [email], [full_name], [gender], [password], [role], [img], [status]) VALUES (N'Christian', CAST(N'2023-05-26' AS Date), N'eu.erat@google.net', N'Damian', 0, N'202cb962ac59075b964b07152d234b70', 0, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU', 1)
+INSERT [dbo].[Users] ([username], [dob], [email], [full_name], [gender], [password], [role], [img], [status]) VALUES (N'Clio', CAST(N'2023-08-17' AS Date), N'fusce@icloud.com', N'Elvis Nam', 0, N'e10adc3949ba59abbe56e057f20f883e', 0, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU', 1)
 GO
 ALTER TABLE [dbo].[Contracts] ADD  DEFAULT ((0)) FOR [TotalCost]
 GO
@@ -206,9 +201,6 @@ REFERENCES [dbo].[Cars] ([CarID])
 GO
 ALTER TABLE [dbo].[ContractDetails]  WITH CHECK ADD FOREIGN KEY([ContractID])
 REFERENCES [dbo].[Contracts] ([ContractID])
-GO
-ALTER TABLE [dbo].[Contracts]  WITH CHECK ADD FOREIGN KEY([UserID])
-REFERENCES [dbo].[Users] ([UserID])
 GO
 /****** Object:  StoredProcedure [dbo].[GetAvailableCars]    Script Date: 2/25/2024 1:07:48 PM ******/
 SET ANSI_NULLS ON

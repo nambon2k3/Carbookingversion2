@@ -33,40 +33,30 @@
             <div class="container px-4 px-lg-5 mt-5">
 
 
-                <h1>Bus management</h1>
+                <h1>Car management</h1>
 
                 <div class="row">
 
                     <div class="col-md-6">
 
-                        <form action="AdminBus" method="post">
+                        <form action="AdminCar" method="post">
 
-                            <input type="hidden" name="id" value="${bus.id}">
+                            <input type="hidden" name="id" value="${car.carID}">
                             <input type="hidden" name="action" value="${action}">
 
                             <div class="mb-3">
-                                <label for="seats" class="form-label">Number of Seats</label>
-                                <input type="number" class="form-control" id="seats" name="seats" value="${bus.seats}" required>
+                                <label for="seats" class="form-label">Capacity</label>
+                                <input type="number" class="form-control" id="seats" name="capacity" value="${car.capacity}" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="departureTime" class="form-label">Departure Time</label>
-                                <input type="time" class="form-control" id="departureTime" name="departureTime" value="${bus.departureTime}" required>
+                                <label for="source" class="form-label">Car type</label>
+                                <input type="text" class="form-control" id="source" name="carType" value="${car.carType}" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="source" class="form-label">Source</label>
-                                <input type="text" class="form-control" id="source" name="source" value="${bus.source}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="destination" class="form-label">Destination</label>
-                                <input type="text" class="form-control" id="destination" name="destination" value="${bus.destination}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="arrivalTime" class="form-label">Arrival Time</label>
-                                <input type="time" class="form-control" id="arrivalTime" name="arrivalTime" value="${bus.arrivalTime}" required>
+                                <label for="destination" class="form-label">Price per day</label>
+                                <input type="number" class="form-control" id="destination" name="rentalPricePerDay" value="${car.rentalPricePerDay}" required>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Submit</button>
