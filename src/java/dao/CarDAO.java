@@ -97,4 +97,44 @@ public class CarDAO extends DBContext {
     }
 
     // You can implement additional methods as needed
+    
+    public int countTotalCars(String sql) {
+        
+        try (
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+        ) {
+            if (resultSet.next()) {
+                return resultSet.getInt("TotalCars");
+            }
+        } catch (SQLException e) {
+            System.out.println("countTotalCars: " + e.getMessage());
+        }
+        return -1; // Return -1 if an error occurs
+    }
+    
+    public List<Car> getCarPerPage(String sql) {
+        List<Car> cars = new ArrayList<>();
+        try ( PreparedStatement preparedStatement = connection.prepareStatement(sql);  ) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int carID = resultSet.getInt("CarID");
+                String carType = resultSet.getString("CarType");
+                int capacity = resultSet.getInt("Capacity");
+                double rentalPricePerDay = resultSet.getDouble("RentalPricePerDay");
+
+                Car car = new Car();
+                car.setCarID(carID);
+                car.setCarType(carType);
+                car.setCapacity(capacity);
+                car.setRentalPricePerDay(rentalPricePerDay);
+
+                cars.add(car);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return cars;
+    }
+    
 }

@@ -5,7 +5,8 @@
 
 package controller;
 
-import dao.TicketDAO;
+import dao.ContractDAO;
+import dao.ContractDetailsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +14,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.time.Instant;
+import model.Contract;
+import model.User;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="CancelBookedController", urlPatterns={"/cancel"})
-public class CancelBookedController extends HttpServlet {
+@WebServlet(name="BookingController", urlPatterns={"/booking"})
+public class BookingController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +41,10 @@ public class CancelBookedController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CancelBookedController</title>");  
+            out.println("<title>Servlet BookingController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CancelBookedController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet BookingController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,17 +61,29 @@ public class CancelBookedController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        deleteTicket(request, response);
+        String[] carIds = request.getParameterValues("cid");
+        String checkInDate = request.getParameter("checkInDate");
+        String checkOutDate = request.getParameter("checkOutDate");
+        
+        
+        ContractDAO contractDAO = new ContractDAO();
+        ContractDetailsDAO cddao = new ContractDetailsDAO();
+        
+        User user = (User) request.getSession().getAttribute("User");
+        
+        Date checkInDet = Date.valueOf(checkInDate);
+        Date checkOutDet = Date.valueOf(checkOutDate);
+        
+        if(user != null) {
+            Contract contract = new Contract(0, user.getUsername(), checkInDet, checkOutDet, 0, "Pending");
+            contractDAO.createContract(contract);
+            cddao.createListContractDetail(carIds, contractDAO.getLastId());
+            response.sendRedirect("listbooked");
+        }
+        else {
+            response.sendRedirect("login.jsp");
+        }
     } 
-    
-    
-    // Delete a ticket (Empty method, provide the actual code here)
-    private void deleteTicket(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        new TicketDAO().deleteTicket(id);
-
-        response.sendRedirect("booked");
-    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.

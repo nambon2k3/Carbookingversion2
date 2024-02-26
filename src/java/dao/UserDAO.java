@@ -201,5 +201,64 @@ public class UserDAO extends DBContext {
             ex.printStackTrace();
         }
     }
+    
+    public User readUserByUsername(String username) {
+        User user = null;
+
+        String sql = "SELECT * FROM Users WHERE Email = ? or username = ?";
+
+        try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, username);
+
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = mapResultSetToUser(resultSet);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("readUserByUsername: " + e.getMessage());
+        }
+        return user;
+    }
+
+    public User readUserByUsernameAndPassword(String username, String password) {
+        User user = null;
+
+        String sql = "SELECT * FROM Users WHERE (Email = ? or username = ?) AND Password = ? And status = 1";
+
+        try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, username);
+            preparedStatement.setString(3, password);
+
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = mapResultSetToUser(resultSet);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("readUserByUsernameAndPassword: " + e.getMessage());
+        }
+
+        return user;
+    }
+    
+    // Helper method to map ResultSet to User object
+    private User mapResultSetToUser(ResultSet resultSet) throws SQLException {
+        return new User(
+                resultSet.getString("username"),
+                resultSet.getString("password"),
+                resultSet.getString("full_name"),
+                resultSet.getString("email"),
+                resultSet.getString("img"),
+                resultSet.getString("dob"),
+                resultSet.getInt("gender"),
+                resultSet.getInt("role"),
+                resultSet.getInt("status")
+        );
+    }
 
 }

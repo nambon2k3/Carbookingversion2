@@ -82,7 +82,7 @@ public class LogController extends HttpServlet {
 
         //get hashed password
         String hashedPassword = (new PasswordUtil()).hashPasswordMD5(password);
-        
+
         //Array list store cookies
         ArrayList<Cookie> listCookie = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class LogController extends HttpServlet {
         Cookie usernameCookie = new Cookie("username", username);
         Cookie passwordCookie = new Cookie("password", password);
         Cookie rememberCookie = new Cookie("remember", remember);
-
+        
         //Add cookie to list
         listCookie.add(usernameCookie);
         listCookie.add(passwordCookie);
@@ -100,100 +100,28 @@ public class LogController extends HttpServlet {
 
         //Get session
         HttpSession session = request.getSession();
-        String generatedPass = (String) session.getAttribute("generatedPass");
-        
-        //If temp password exist in session then login by temp password, else login by normal
-        if (generatedPass != null) {
-            //Check if password equals temp password
-            if (password.equals(generatedPass)) {
-                User user = userDAO.getUserByUsername(username);
-                //check if account is active --> status = 1 
-                if (user.getStatus() != 0) {
-                    //store user object in the session
-                    request.getSession().setAttribute("user", user);
-                    
-                    //check remember option
-                    if (remember != null) {
-                        setCookieTimeOut(listCookie, response, 60 * 60 * 24);
-                    } else {
-                        setCookieTimeOut(listCookie, response, 0);
-                    }
-
-                    //direct role admin
-                    if (user.getRole() == 0) {
-                        response.sendRedirect("AdminCar");
-                        return;
-                    }
-                    
-                    if (user.getRole() == 1) {
-                        response.sendRedirect("home");
-                        return;
-                    }
-                }else {
-                    request.setAttribute("username", username);
-                    request.setAttribute("password", password);
-                    request.setAttribute("remember", remember);
-                    eraseCookie(request, response);
-                    request.setAttribute("err", "The account is banned!");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
-                }
-            }else {
-                request.setAttribute("username", username);
-                request.setAttribute("password", password);
-                request.setAttribute("remember", remember);
-                eraseCookie(request, response);
-                request.setAttribute("err", "Username or password is wrong!");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
-            }
-        } else {
-            //check existed account in database
-            if (userDAO.checkExistedUserWithUsernameAndPassword(username, hashedPassword)) {
-                //get user in database
-                User user = userDAO.getUserByUsername(username);
-                //check if account is active --> status = 1 
-                if (user.getStatus() != 0) {
-                    //store user object in the session
-                    request.getSession().setAttribute("user", user);
-
-                    //check remember option
-                    if (remember != null) {
-                        setCookieTimeOut(listCookie, response, 60 * 60 * 24);
-                    } else {
-                        setCookieTimeOut(listCookie, response, 0);
-                    }
-
-                    //direct role admin
-                    if (user.getRole() == 0) {
-                        response.sendRedirect("AdminBus");
-                        return;
-                    }
-                    
-                    if (user.getRole() == 1) {
-                        response.sendRedirect("home");
-                        return;
-                    }
-                } else {
-                    request.setAttribute("username", username);
-                    request.setAttribute("password", password);
-                    request.setAttribute("remember", remember);
-                    eraseCookie(request, response);
-                    request.setAttribute("err", "The account is banned!");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
-                }
+        //check existed account in database
+        if (userDAO.readUserByUsernameAndPassword(username, hashedPassword) != null) {
+            //get user in database
+            User user = userDAO.readUserByUsername(username);
+            session.setAttribute("User", user);
+            //check remember option
+            if (remember != null) {
+                setCookieTimeOut(listCookie, response, 60 * 60 * 24);
             } else {
-                request.setAttribute("username", username);
-                request.setAttribute("password", password);
-                request.setAttribute("remember", remember);
-                request.setAttribute("err", "Username or password is wrong");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
+                setCookieTimeOut(listCookie, response, 0);
             }
-        }        
-        
-        request.getRequestDispatcher("home").forward(request, response);
+
+        } else {
+            request.setAttribute("username", username);
+            request.setAttribute("password", password);
+            request.setAttribute("remember", remember);
+            request.setAttribute("err", "Username or password is wrong");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        }
+
+        response.sendRedirect("home");
     }
 
     private void setCookieTimeOut(ArrayList<Cookie> listCookie, HttpServletResponse response, int timeExist) {

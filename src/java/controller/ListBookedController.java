@@ -5,8 +5,7 @@
 
 package controller;
 
-import dao.BusDAO;
-import dao.TicketDAO;
+import dao.ContractDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,13 +13,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Contract;
+import model.User;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="BookDetailController", urlPatterns={"/bookdetail"})
-public class BookDetailController extends HttpServlet {
+@WebServlet(name="ListBookedController", urlPatterns={"/listbooked"})
+public class ListBookedController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +39,10 @@ public class BookDetailController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BookDetailController</title>");  
+            out.println("<title>Servlet ListBookedController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BookDetailController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListBookedController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,20 +59,13 @@ public class BookDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        showUpdateBusDetail(request, response);
+        ContractDAO cdao = new ContractDAO();
+        User user = (User) request.getSession().getAttribute("User");
+        List<Contract> list = cdao.getListContractByUsername(user.getUsername());
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("listbooked.jsp").forward(request, response);
     } 
-    
-    // Show update bus form (Empty method, provide the actual code here)
-    private void showUpdateBusDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String numberTicket = request.getParameter("numberTicket");
-        request.setAttribute("bus", new BusDAO().getBusById(id));
-        request.setAttribute("seatId", new TicketDAO().getTotalTicketsByBusId(id));
-        request.setAttribute("numberTicket", numberTicket);
-        request.getRequestDispatcher("book-detail.jsp").forward(request, response);
-    }
-    
-    
+
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request

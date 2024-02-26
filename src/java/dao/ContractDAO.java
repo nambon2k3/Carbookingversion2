@@ -26,6 +26,8 @@ public class ContractDAO extends DBContext {
             ex.printStackTrace();
         }
     }
+    
+    
 
     public List<Contract> getAllContracts() {
         List<Contract> contracts = new ArrayList<>();
@@ -53,6 +55,19 @@ public class ContractDAO extends DBContext {
             ex.printStackTrace();
         }
         return contracts;
+    }
+    
+    public int getLastId() {
+       
+        String query = "select max(ContractID) as maxId from Contracts";
+        try ( PreparedStatement preparedStatement = connection.prepareStatement(query);  ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("getLastId: " + ex.getMessage());
+        }
+        return -1;
     }
 
     public Contract getContractByID(int contractID) {
@@ -108,5 +123,34 @@ public class ContractDAO extends DBContext {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public List<Contract> getListContractByUsername(String username) {
+         List<Contract> list = new ArrayList<>();
+        String query = "SELECT * FROM Contracts WHERE  CAST(username as nvarchar) = ?";
+        try ( PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("contractId");
+                    Timestamp startDateTime = resultSet.getTimestamp("StartDateTime");
+                    Timestamp endDateTime = resultSet.getTimestamp("EndDateTime");
+                    double totalCost = resultSet.getDouble("TotalCost");
+                    String status = resultSet.getString("Status");
+                    
+                    Contract contract = new Contract();
+                    contract.setContractID(id);
+                    contract.setUsername(username);
+                    contract.setStartDateTime(new java.util.Date(startDateTime.getTime()));
+                    contract.setEndDateTime(new java.util.Date(endDateTime.getTime()));
+                    contract.setTotalCost(totalCost);
+                    contract.setStatus(status);
+                    list.add(contract);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("getListContractByUsername: " + ex.getMessage());
+        }
+        return list;
     }
 }

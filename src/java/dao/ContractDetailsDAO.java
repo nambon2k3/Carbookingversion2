@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Car;
 
 public class ContractDetailsDAO extends DBContext {
 
@@ -24,6 +25,14 @@ public class ContractDetailsDAO extends DBContext {
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public void createListContractDetail(String[] carIds, int ctid) {
+        for (String carId : carIds) {
+            int cid = Integer.parseInt(carId);
+            ContractDetails contractDetails = new ContractDetails(0, ctid, cid, "Active");
+            createContractDetails(contractDetails);
         }
     }
 
@@ -98,5 +107,24 @@ public class ContractDetailsDAO extends DBContext {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public List<Car> getAllCarINCTdetailByContractId(String ctid) {
+        List<Car> listCar = new ArrayList<>();
+        CarDAO carDAO = new CarDAO();
+        String query = "SELECT * FROM ContractDetails where [ContractID] = ?";
+        try ( PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, ctid);
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    int carID = resultSet.getInt("CarID");
+                    listCar.add(carDAO.getCarByID(carID));
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("getAllContractDetailsByContractId: " + ex.getMessage());
+        }
+        return listCar;
     }
 }
