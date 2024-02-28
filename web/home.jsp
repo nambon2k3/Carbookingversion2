@@ -63,11 +63,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="capacityFilter">Check-in Date</label>
-                                    <input type="date" class="form-control" id="checkInDateFilter" name="checkInDate" value="${checkInDate}" required>
+                                    <input  type="date" class="form-control" id="checkInDate" name="checkInDate" value="${checkInDate}" onchange="updateCheckOutDateMin()" required>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="capacityFilter">Check-out Date</label>
-                                    <input type="date" class="form-control" id="checkOutDateFilter" name="checkOutDate" value="${checkOutDate}" required>
+                                    <input type="date" class="form-control" id="checkOutDate" name="checkOutDate" value="${checkOutDate}" required>
                                 </div>
                                 <div class="col-md-3 d-flex justify-content-center">
                                     <div>
@@ -141,6 +141,20 @@
             inputcheckOut.value = date;
         </script>
 
+        
+        <script>
+            function updateCheckOutDateMin() {
+            // Get the selected checkInDate value
+            var checkInDate = document.getElementById('checkInDate').value;
+
+            // Set the minimum checkOutDate value to checkInDate
+            var checkOutDate = document.getElementById('checkOutDate');
+                checkOutDate.min = checkInDate;
+                if(checkOutDate.value < checkInDate) {
+                    checkOutDate.value = checkInDate;
+                }
+        }
+        </script>
         <!-- Footer -->
         <footer class="bg-dark text-white text-center py-3">
             <p>&copy; 2024 Car Booking. All rights reserved.</p>
