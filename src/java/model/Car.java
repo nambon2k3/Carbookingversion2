@@ -14,6 +14,7 @@ public class Car {
     private String carType;
     private int capacity;
     private double rentalPricePerDay;
+    private String img;
 
     public Car() {
     }
@@ -24,6 +25,23 @@ public class Car {
         this.capacity = capacity;
         this.rentalPricePerDay = rentalPricePerDay;
     }
+
+    public Car(int carID, String carType, int capacity, double rentalPricePerDay, String img) {
+        this.carID = carID;
+        this.carType = carType;
+        this.capacity = capacity;
+        this.rentalPricePerDay = rentalPricePerDay;
+        this.img = img;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+    
 
     public int getCarID() {
         return carID;

@@ -122,11 +122,13 @@ public class CarDAO extends DBContext {
                 String carType = resultSet.getString("CarType");
                 int capacity = resultSet.getInt("Capacity");
                 double rentalPricePerDay = resultSet.getDouble("RentalPricePerDay");
+                String img = resultSet.getString("img");
 
                 Car car = new Car();
                 car.setCarID(carID);
                 car.setCarType(carType);
                 car.setCapacity(capacity);
+                car.setImg(img);
                 car.setRentalPricePerDay(rentalPricePerDay);
 
                 cars.add(car);

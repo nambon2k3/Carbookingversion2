@@ -91,6 +91,7 @@
                                 <thead>
                                     <tr>
                                         <th>Car Type</th>
+                                        <th>Car Image</th>
                                         <th>Capacity</th>
                                         <th>Rental Price Per Day</th>
                                         <th>Book Now</th>
@@ -100,6 +101,9 @@
                                     <c:forEach items="${listCar}" var="c">
                                         <tr>
                                             <td>${c.carType}</td>
+                                            <td>
+                                                <img style="width: 200px; aspect-ratio: 1/1; object-fit: contain" src="${c.img}" alt="alt"/>
+                                            </td>
                                             <td>${c.capacity}</td>
                                             <td>${c.rentalPricePerDay}</td>
                                             <td>

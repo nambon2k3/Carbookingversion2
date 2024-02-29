@@ -74,6 +74,13 @@ public class BookingController extends HttpServlet {
         Date checkInDet = Date.valueOf(checkInDate);
         Date checkOutDet = Date.valueOf(checkOutDate);
         
+        if(carIds == null || carIds.length == 0) {
+            request.setAttribute("checkInDate", checkInDate);
+            request.setAttribute("checkOutDate", checkOutDate);
+            request.getRequestDispatcher("home").forward(request, response);
+            return;
+        }
+        
         if(user != null) {
             Contract contract = new Contract(0, user.getUsername(), checkInDet, checkOutDet, 0, "Pending");
             contractDAO.createContract(contract);
