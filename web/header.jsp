@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="home">Home</a></li>
-                <c:if test="${sessionScope.user.role eq 0}">
+                <c:if test="${sessionScope.User.role eq 0}">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="AdminUser">User</a></li>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="AdminCar">Car</a></li>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="AdminContract">Contract</a></li>
@@ -25,7 +25,7 @@
             <div class="d-flex">
 
                 <c:choose>
-                    <c:when test="${not empty sessionScope.user}">
+                    <c:when test="${not empty sessionScope.User}">
                         <a class="btn btn-outline-dark" href="booked">
                             <i class="bi-clock me-1"></i>
                             Booked list

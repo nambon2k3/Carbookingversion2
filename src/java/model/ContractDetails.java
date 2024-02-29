@@ -4,6 +4,8 @@
  */
 package model;
 
+import dao.CarDAO;
+
 /**
  *
  * @author lvhn1
@@ -57,6 +59,8 @@ public class ContractDetails {
         this.status = status;
     }
     
-    
+    public Car getCar() {
+        return new CarDAO().getCarByID(carID);
+    }
     
 }

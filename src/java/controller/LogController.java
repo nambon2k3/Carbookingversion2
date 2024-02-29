@@ -97,13 +97,14 @@ public class LogController extends HttpServlet {
         listCookie.add(rememberCookie);
 
         UserDAO userDAO = new UserDAO();
+        User user = null;
 
         //Get session
         HttpSession session = request.getSession();
         //check existed account in database
         if (userDAO.readUserByUsernameAndPassword(username, hashedPassword) != null) {
             //get user in database
-            User user = userDAO.readUserByUsername(username);
+            user = userDAO.readUserByUsername(username);
             session.setAttribute("User", user);
             //check remember option
             if (remember != null) {
@@ -120,8 +121,10 @@ public class LogController extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
-
-        response.sendRedirect("home");
+        
+        if (user.getRole() == 0)
+            response.sendRedirect("AdminUser");
+        else response.sendRedirect("home");
     }
 
     private void setCookieTimeOut(ArrayList<Cookie> listCookie, HttpServletResponse response, int timeExist) {

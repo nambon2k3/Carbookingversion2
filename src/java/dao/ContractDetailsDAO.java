@@ -109,6 +109,32 @@ public class ContractDetailsDAO extends DBContext {
         }
     }
 
+    public List<ContractDetails> getContractDetailsByContractID(int contractID) {
+        List<ContractDetails> contractDetailsList = new ArrayList<>();
+        String query = "SELECT * FROM ContractDetails WHERE ContractID = ?";
+        try ( PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, contractID);
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int contractDetailID = resultSet.getInt("ContractDetailID");
+                    int carID = resultSet.getInt("CarID");
+                    String status = resultSet.getString("Status");
+
+                    ContractDetails contractDetails = new ContractDetails();
+                    contractDetails.setContractDetailID(contractDetailID);
+                    contractDetails.setContractID(contractID);
+                    contractDetails.setCarID(carID);
+                    contractDetails.setStatus(status);
+
+                    contractDetailsList.add(contractDetails);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return contractDetailsList;
+    }
+
     public List<Car> getAllCarINCTdetailByContractId(String ctid) {
         List<Car> listCar = new ArrayList<>();
         CarDAO carDAO = new CarDAO();

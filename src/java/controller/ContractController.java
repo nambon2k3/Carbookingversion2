@@ -103,23 +103,12 @@ public class ContractController extends HttpServlet {
     private void updateContract(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        String username = request.getParameter("username");
-        int carId = Integer.parseInt(request.getParameter("carId"));
-        int seatNumber = Integer.parseInt(request.getParameter("seatNumber"));
-        String dateString = request.getParameter("bookedDate");
-        Date bookedDate = null;
-
-        if (dateString != null && !dateString.isEmpty()) {
-            try {
-                // Parse the string date into a java.sql.Date
-                bookedDate = Date.valueOf(dateString);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace(); // Handle parsing error if necessary
-            }
-        }
+        String status = request.getParameter("status");
 
         // Create a Contract object and set its properties
-        Contract contract = new Contract();
+        Contract contract = new ContractDAO().getContractByID(id);
+        
+        contract.setStatus(status);
 
         if (new ContractDAO().updateContract(contract)) {
             response.sendRedirect("AdminContract");

@@ -4,7 +4,9 @@
  */
 package model;
 
+import dao.ContractDetailsDAO;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -79,6 +81,8 @@ public class Contract {
         this.status = status;
     }
     
-    
+    public List<ContractDetails> getContractDetails() {
+        return new ContractDetailsDAO().getContractDetailsByContractID(contractID);
+    }
     
 }
