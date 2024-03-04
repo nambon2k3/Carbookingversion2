@@ -125,39 +125,18 @@
 
             </div>
         </div>
-
-        <script>
-            let inputCheckIn = document.getElementById('checkInDateFilter');
-            let inputcheckOut = document.getElementById('checkOutDateFilter');
-            let inputCapacityFilter = document.getElementById('capacityFilter');
-            
-            const today = new Date();
-            const year = today.getFullYear();
-            let month = today.getMonth() + 1;
-            let day = today.getDate();
-
-            // Add leading zero for single-digit months and days
-            month = month < 10 ? '0' + month : month;
-            day = day < 10 ? '0' + day : day;
-            let date = year + '-' + month + '-' + day;
-
-            inputCheckIn.value = date;
-            inputcheckOut.value = date;
-        </script>
-
-        
         <script>
             function updateCheckOutDateMin() {
-            // Get the selected checkInDate value
-            var checkInDate = document.getElementById('checkInDate').value;
+                // Get the selected checkInDate value
+                var checkInDate = document.getElementById('checkInDate').value;
 
-            // Set the minimum checkOutDate value to checkInDate
-            var checkOutDate = document.getElementById('checkOutDate');
+                // Set the minimum checkOutDate value to checkInDate
+                var checkOutDate = document.getElementById('checkOutDate');
                 checkOutDate.min = checkInDate;
-                if(checkOutDate.value < checkInDate) {
+                if (checkOutDate.value < checkInDate) {
                     checkOutDate.value = checkInDate;
                 }
-        }
+            }
         </script>
         <!-- Footer -->
         <footer class="bg-dark text-white text-center py-3">
